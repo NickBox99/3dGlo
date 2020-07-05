@@ -1,8 +1,4 @@
-
-document.addEventListener('DOMContentLoaded', () => {
-    Timer("30 July 2020");
-});
-
+//Таймер
 function Timer(dedline) {
     const timerHours = document.getElementById("timer-hours"),
         timerMinutes = document.getElementById("timer-minutes"),
@@ -39,3 +35,64 @@ function Timer(dedline) {
     };
     updateTimer();
 }
+
+//Модальные окна
+function addModalEventListener() {
+
+    const toogleMenu = function() {
+        const btnMenu = document.querySelector(".menu"),
+            modalMenu = document.querySelector("menu"),
+            closeBtn = document.querySelector(".close-btn"),
+            listLink = modalMenu.querySelectorAll("ul>li");
+
+        const handlerMenu = function() {
+            if (!modalMenu.style.transform || modalMenu.style.transform === `translate(-100%)`) {
+                let i = -100;
+                console.log('i: ', i);
+
+                const animated = function() {
+                    i += 5;
+                    modalMenu.style.transform = `translate(${i}%)`;
+
+                    if (i < 0) {
+                        requestAnimationFrame(animated);
+                    }
+                };
+
+                if (document.documentElement.clientHeight >= 768) {
+                    animated();
+                } else {
+                    modalMenu.style.transform = `translate(0)`;
+                }
+            } else {
+                modalMenu.style.transform = `translate(-100%)`;
+            }
+        };
+
+        btnMenu.addEventListener('click', handlerMenu);
+        closeBtn.addEventListener('click', handlerMenu);
+        listLink.forEach(elem => elem.addEventListener('click', handlerMenu));
+    };
+
+    const tooglePopup = function() {
+        const btnsPopup = document.querySelectorAll('.popup-btn'),
+            modalPopup = document.querySelector('.popup'),
+            closeBtn = document.querySelector('.popup-close');
+
+        btnsPopup.forEach(elem => elem.addEventListener('click', () => {
+            modalPopup.style.display = "block";
+        }));
+        closeBtn.addEventListener('click', () => {
+            modalPopup.style.display = "none";
+        });
+    };
+
+    toogleMenu();
+    tooglePopup();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    Timer("30 July 2020");
+    addModalEventListener();
+});
+
