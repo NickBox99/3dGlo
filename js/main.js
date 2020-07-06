@@ -1,5 +1,5 @@
 //Таймер
-function Timer(dedline) {
+function timer(dedline) {
     const timerHours = document.getElementById("timer-hours"),
         timerMinutes = document.getElementById("timer-minutes"),
         timerSeconds = document.getElementById("timer-seconds");
@@ -40,10 +40,7 @@ function Timer(dedline) {
 function addModalEventListener() {
 
     const toogleMenu = function() {
-        const btnMenu = document.querySelector(".menu"),
-            modalMenu = document.querySelector("menu"),
-            closeBtn = document.querySelector(".close-btn"),
-            listLink = modalMenu.querySelectorAll("ul>li");
+        const modalMenu = document.querySelector("menu");
 
         const handlerMenu = function() {
             if (!modalMenu.style.transform || modalMenu.style.transform === `translate(-100%)`) {
@@ -68,9 +65,16 @@ function addModalEventListener() {
             }
         };
 
-        btnMenu.addEventListener('click', handlerMenu);
-        closeBtn.addEventListener('click', handlerMenu);
-        listLink.forEach(elem => elem.addEventListener('click', handlerMenu));
+        document.addEventListener('click', (event)=>{
+            const target = event.target;
+
+            if(target.closest(".menu") || target.closest(".close-btn") || 
+            (modalMenu.style.transform === `translate(0px)` && target !== modalMenu)){
+                handlerMenu();
+            }
+
+        });
+
     };
 
     const tooglePopup = function() {
@@ -114,8 +118,42 @@ function addModalEventListener() {
     tooglePopup();
 }
 
+//Табы
+const tabs = function(){
+    const tabHeader = document.querySelector(".service-header"),
+    tab = document.querySelectorAll(".service-header-tab"),
+    tabContent = document.querySelectorAll(".service-tab");
+
+    const toggleTabContext = function(ir){
+        for(let i=0;i< tab.length; i++){
+            if(i === ir){
+                tab[i].classList.add('active');
+                tabContent[i].classList.remove('d-none');
+            }else{
+                tab[i].classList.remove('active');
+                tabContent[i].classList.add('d-none');
+            }
+        }
+    }
+
+    tabHeader.addEventListener('click', (event)=>{
+        let target = event.target.closest(".service-header-tab");
+
+        if(target){
+            tab.forEach((item, i) => {
+                if(item === target){
+                    toggleTabContext(i);
+                    return;
+                }
+            });
+        }
+
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    Timer("30 July 2020");
+    timer("30 July 2020");
     addModalEventListener();
+    tabs();
 });
 
