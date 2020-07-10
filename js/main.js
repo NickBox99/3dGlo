@@ -95,6 +95,7 @@ function addModalEventListener() {
                 animate();
             }
 
+
         });
 
     };
@@ -268,10 +269,40 @@ const slider = function(interval = 1500) {
     });
 };
 
+//События наведения мышки
+const mouseEvent = function(){
+    const changeAttr = (event) => {
+        const target = event.target;
+
+        if(target.hasAttribute("data-img")){
+            const saveAttr = target.getAttribute("src");
+            target.setAttribute("src", target.getAttribute("data-img"));
+            target.setAttribute("data-img", saveAttr);
+        }
+    }
+
+    document.addEventListener('mouseover', changeAttr);
+
+    document.addEventListener('mouseout', changeAttr);
+}
+
+//События для калькулятора
+const calcEvent = function(){
+    document.querySelector(".calc-block").addEventListener("input", (event) => {
+        const target = event.target;
+
+        if(target.matches("input.calc-item")){
+            target.value = target.value.replace(/\D/, '');
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     timer("30 July 2020");
     addModalEventListener();
     tabs();
     slider(1500);
+    mouseEvent();
+    calcEvent();
 });
 
