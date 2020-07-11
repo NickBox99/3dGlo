@@ -330,7 +330,7 @@ const calcEvent = function(){
         
         if(needTotal === nowTotal){
             statusAnimated = false;
-            clearTimeout(timeoutCalc);
+            
         }else{
             if(nowTotal < needTotal){
                 nowTotal++;
@@ -354,7 +354,13 @@ const calcEvent = function(){
         if(target.matches("input.calc-item")){
             target.value = target.value.replace(/\D/, '');
             needTotal = getTotal(100);
+
+            if(statusAnimated){
+                clearTimeout(timeoutCalc);
+                startAnimate();
+            }
             if(!statusAnimated){
+                
                 startAnimate();
             }
         }
@@ -362,7 +368,12 @@ const calcEvent = function(){
 
     calcType.addEventListener("change", ()=>{
         needTotal = getTotal(100);
+        if(statusAnimated){
+            clearTimeout(timeoutCalc);
+            startAnimate();
+        }
         if(!statusAnimated){
+            
             startAnimate();
         }
     });
