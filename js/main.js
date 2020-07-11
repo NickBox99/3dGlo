@@ -332,12 +332,26 @@ const calcEvent = function(){
             statusAnimated = false;
             
         }else{
+            let speed = Math.abs(needTotal - nowTotal);
+            if(speed % 10 === 0) {
+                speed = 10;
+            }
+            else if(speed % 5 === 0) {
+                speed = 5;
+            }else if(speed % 3 === 0){
+                speed = 3;
+            }else if(speed % 2 === 0){
+                speed = 2;
+            }else{
+                speed = 1;
+            }
+
             if(nowTotal < needTotal){
-                nowTotal++;
+                nowTotal+= speed;
                 totalValue.textContent = nowTotal;
             }
             else{
-                nowTotal--;
+                nowTotal-= speed;
                 totalValue.textContent = nowTotal;
             }
             requestAnimationFrame(animateTotal);
@@ -360,7 +374,6 @@ const calcEvent = function(){
                 startAnimate();
             }
             if(!statusAnimated){
-                
                 startAnimate();
             }
         }
@@ -373,7 +386,6 @@ const calcEvent = function(){
             startAnimate();
         }
         if(!statusAnimated){
-            
             startAnimate();
         }
     });
