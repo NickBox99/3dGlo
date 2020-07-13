@@ -412,18 +412,14 @@ const sendForm = (id) => {
             for(let i = 0; i< countPoints; i ++){
                 points+='.';
             }
-            console.log('points: ', points);
             statusMessage.textContent = (loadMessage + points);
-            console.log('loadMessage: ', loadMessage);
             countPoints++;
             if(countPoints > 3){
                 countPoints = 0;
             }
         }, 400);
 
-        const formData = new FormData(form.elements);
-        console.log('formData: ', formData);
-        console.log('form: ', form);
+        const formData = new FormData(form);
         let body = {};
         formData.forEach((val, key) => {
             body[key] = val;
@@ -472,7 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Ajax
     sendForm('form1');
-    //sendForm('form2');
-    //sendForm('form3');
+    sendForm('form2');
+    sendForm('form3');
 });
 
