@@ -391,6 +391,77 @@ const calcEvent = function(){
     });
 }
 
+//Ajax
+const sendForm = (id) => {
+    const errorMessage = "Что то пошло не так...",
+        loadMessage = "Загрузка",
+        successMessage = "Спасибо! Мы скоро с вами свяжемся!";
+    let animateLoad;
+    
+    const form = document.getElementById(id);
+
+    const statusMessage = document.createElement('div');
+    statusMessage.style.cssText = 'font-size: 2rem';
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        form.appendChild(statusMessage);
+        let countPoints = 0;
+        animateLoad = setInterval(() => {
+            let points = '';
+            for(let i = 0; i< countPoints; i ++){
+                points+='.';
+            }
+            console.log('points: ', points);
+            statusMessage.textContent = (loadMessage + points);
+            console.log('loadMessage: ', loadMessage);
+            countPoints++;
+            if(countPoints > 3){
+                countPoints = 0;
+            }
+        }, 400);
+
+        const formData = new FormData(form.elements);
+        console.log('formData: ', formData);
+        console.log('form: ', form);
+        let body = {};
+        formData.forEach((val, key) => {
+            body[key] = val;
+        });
+        postData(body,
+            () => {
+                statusMessage.textContent = successMessage;
+                const elements = form.elements;
+                for(let i = 0; i< elements.length; i++){
+                    elements[i].value = '';
+                }
+            },
+            (error) => {
+                statusMessage.textContent = errorMessage;
+                console.error(error);
+            }
+        );
+    });
+
+    const postData = (body, outputData, errorData) => {
+        const request = new XMLHttpRequest();
+        request.addEventListener('readystatechange', () => {
+            if(request.readyState !== 4){
+                return;
+            }
+            clearInterval(animateLoad);
+            if(request.status === 200){
+                outputData();
+            } else {
+                errorData(request.status);
+            }
+        });
+        request.open('POST', './server.php');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify(body));
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     timer("30 July 2020");
     addModalEventListener();
@@ -398,5 +469,10 @@ document.addEventListener('DOMContentLoaded', () => {
     slider(1500);
     mouseEvent();
     calcEvent();
+
+    //Ajax
+    sendForm('form1');
+    //sendForm('form2');
+    //sendForm('form3');
 });
 
