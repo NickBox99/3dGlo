@@ -1,3 +1,5 @@
+'use strict';
+
 //Таймер
 function timer(dedline) {
     const timerHours = document.getElementById("timer-hours"),
@@ -279,12 +281,12 @@ const mouseEvent = function(){
             target.setAttribute("src", target.getAttribute("data-img"));
             target.setAttribute("data-img", saveAttr);
         }
-    }
+    };
 
     document.addEventListener('mouseover', changeAttr);
 
     document.addEventListener('mouseout', changeAttr);
-}
+};
 
 //События для калькулятора
 const calcEvent = function(){
@@ -318,7 +320,7 @@ const calcEvent = function(){
             total = price * typeValue * sqareValue * countValue * dayValue;
         }
         return total;
-    }
+    };
 
 
     let statusAnimated = false;
@@ -356,7 +358,7 @@ const calcEvent = function(){
             }
             requestAnimationFrame(animateTotal);
         }
-    }
+    };
 
     const startAnimate = function() {
         timeoutCalc = setTimeout(animateTotal, 1);
@@ -389,7 +391,7 @@ const calcEvent = function(){
             startAnimate();
         }
     });
-}
+};
 
 //Ajax
 const sendForm = (id) => {
@@ -402,6 +404,27 @@ const sendForm = (id) => {
 
     const statusMessage = document.createElement('div');
     statusMessage.style.cssText = 'font-size: 2rem';
+
+    const postData = (body) => {
+
+        return new Promise((resolve, reject) => {
+            const request = new XMLHttpRequest();
+            request.addEventListener("readystatechange", () => {
+              if (request.readyState !== 4) {
+                return;
+              }
+              clearInterval(animateLoad);
+              if (request.status === 200) {
+                  resolve();
+              } else {
+                reject(request.status);
+              }
+            });
+            request.open("POST", "./server.php");
+            request.setRequestHeader("Content-Type", "application/json");
+            request.send(JSON.stringify(body));
+        });
+    };
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -424,39 +447,27 @@ const sendForm = (id) => {
         formData.forEach((val, key) => {
             body[key] = val;
         });
-        postData(body,
-            () => {
-                statusMessage.textContent = successMessage;
-                const elements = form.elements;
-                for(let i = 0; i< elements.length; i++){
-                    elements[i].value = '';
-                }
-            },
-            (error) => {
-                statusMessage.textContent = errorMessage;
-                console.error(error);
+
+        const postDataFunction = postData(body);
+        postDataFunction.then(
+          () => {
+            statusMessage.textContent = successMessage;
+            const elements = form.elements;
+            for (let i = 0; i < elements.length; i++) {
+              elements[i].value = "";
             }
-        );
+          },
+          (error) => {
+            statusMessage.textContent = errorMessage;
+            console.error(error);
+          }
+        ).catch((e) => {
+            console.warn("Ошибка: " + e);
+        });
     });
 
-    const postData = (body, outputData, errorData) => {
-        const request = new XMLHttpRequest();
-        request.addEventListener('readystatechange', () => {
-            if(request.readyState !== 4){
-                return;
-            }
-            clearInterval(animateLoad);
-            if(request.status === 200){
-                outputData();
-            } else {
-                errorData(request.status);
-            }
-        });
-        request.open('POST', './server.php');
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.send(JSON.stringify(body));
-    }
-}
+    
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     timer("30 July 2020");
