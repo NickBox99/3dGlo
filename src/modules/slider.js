@@ -1,12 +1,12 @@
 const slider = function (interval = 1500) {
-  const sliders = document.querySelector("#all-progects"),
+  var sliders = document.querySelector("#all-progects"),
     slide = sliders.querySelectorAll(".portfolio-item"),
     dots = sliders.querySelector(".portfolio-dots");
 
   for (let i = 0; i < slide.length; i++) {
     const element = document.createElement("li");
     element.classList.add("dot");
-    dots.append(element);
+    dots.appendChild(element);
   }
 
   const dot = dots.querySelectorAll(".dot");

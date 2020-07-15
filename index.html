@@ -412,75 +412,7 @@
 		</div>
 	</div>
 </div>
-<script src="validator.js"></script>
-<script src="./dist/main.js"></script>
 
-<script>
-	const valid = new Validator({
-		selector: '#form1',
-		
-		method: {
-			'form1-phone': [
-				['notEmpty'],
-				['pattern', 'phone']
-			],
-			'form1-email': [
-				['notEmpty'],
-				['pattern', 'email']
-			],
-			'form1-name': [
-				['notEmpty'],
-				['pattern', 'onlyRusText']
-			]
-		}
-	});
-	valid.init();
-</script>
-<script>
-	const valid2 = new Validator({
-		selector: '#form2',
-		
-		method: {
-			'form2-phone': [
-				['notEmpty'],
-				['pattern', 'phone']
-			],
-			'form2-email': [
-				['notEmpty'],
-				['pattern', 'email']
-			],
-			'form2-name': [
-				['notEmpty'],
-				['pattern', 'onlyRusText']
-			],
-			'form2-message': [
-				['notEmpty'],
-				['pattern', 'onlyRusText']
-			]
-		}
-	});
-	valid2.init();
-</script>
-<script>
-	const valid3 = new Validator({
-		selector: '#form3',
-		
-		method: {
-			'form3-phone': [
-				['notEmpty'],
-				['pattern', 'phone']
-			],
-			'form3-email': [
-				['notEmpty'],
-				['pattern', 'email']
-			],
-			'form3-name': [
-				['notEmpty'],
-				['pattern', 'onlyRusText']
-			]
-		}
-	});
-	valid3.init();
-</script>
+<script src="./dist/main.js"></script>
 </body>
 </html>

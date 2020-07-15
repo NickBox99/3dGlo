@@ -23,7 +23,6 @@ class Validator{
         this.setPattern();
         this.elementsForm.forEach(elem => elem.addEventListener('change', this.chekIt.bind(this)));
         this.form.addEventListener('submit', e => {
-            
             e.preventDefault();
             this.elementsForm.forEach(elem => this.chekIt({target: elem}));
             if(this.error.size){
@@ -121,3 +120,5 @@ class Validator{
         }
     }
 }
+
+export default Validator;
