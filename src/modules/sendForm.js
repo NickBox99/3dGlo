@@ -2,12 +2,14 @@ const sendForm = (id) => {
   const errorMessage = "Что то пошло не так...",
     loadMessage = "Загрузка",
     successMessage = "Спасибо! Мы скоро с вами свяжемся!";
+  
   let animateLoad;
 
   const form = document.getElementById(id);
 
   const statusMessage = document.createElement("div");
   statusMessage.style.cssText = "font-size: 2rem";
+  statusMessage.style.color = "red";
 
   const postData = (body) => {
     return fetch("./server.php", {
@@ -42,7 +44,7 @@ const sendForm = (id) => {
     });
 
     if (checker) {
-      console.log(123);
+
       form.appendChild(statusMessage);
       let countPoints = 0;
       animateLoad = setInterval(() => {
@@ -78,6 +80,10 @@ const sendForm = (id) => {
         .catch((error) => {
           statusMessage.textContent = errorMessage;
           console.error(error);
+        }).finally(()=>{
+          setTimeout(()=>{
+            statusMessage.remove();
+          }, 5000);
         });
     }
   });
