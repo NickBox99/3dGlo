@@ -34,7 +34,9 @@ function addModalEventListener() {
       if (
         target.closest(".menu") ||
         target.closest(".close-btn") ||
-        (modalMenu.style.transform === `translate(0%)` && target !== modalMenu)
+        (modalMenu.style.transform === `translate(0%)` &&
+          (target !== modalMenu &&
+          !target.closest("li")))
       ) {
         handlerMenu();
       }
@@ -42,22 +44,26 @@ function addModalEventListener() {
       const targetLink = target.closest("a");
       if (targetLink) {
         event.preventDefault();
-        const hrefAtr = targetLink.getAttribute("href"),
-          topSlide = document.querySelector(hrefAtr).offsetTop;
-        let thisTop = window.scrollY;
+        const hrefAtr = targetLink.getAttribute("href");
 
-        const animate = function () {
-          if (thisTop < topSlide) {
-            if (thisTop + 100 > topSlide) {
-              thisTop = topSlide + 1;
+        if (hrefAtr !== "#close" && hrefAtr !== "#") {
+          handlerMenu();
+          const topSlide = document.querySelector(hrefAtr).offsetTop;
+          let thisTop = window.scrollY;
+
+          const animate = function () {
+            if (thisTop < topSlide) {
+              if (thisTop + 100 > topSlide) {
+                thisTop = topSlide + 1;
+              }
+
+              window.scrollTo(0, thisTop);
+              thisTop += 100;
+              requestAnimationFrame(animate);
             }
-
-            window.scrollTo(0, thisTop);
-            thisTop += 100;
-            requestAnimationFrame(animate);
-          }
-        };
-        animate();
+          };
+          animate();
+        }
       }
     });
   };

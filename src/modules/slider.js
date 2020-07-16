@@ -1,5 +1,5 @@
 const slider = function (interval = 1500) {
-  var sliders = document.querySelector("#all-progects"),
+  const sliders = document.querySelector("#all-progects"),
     slide = sliders.querySelectorAll(".portfolio-item"),
     dots = sliders.querySelector(".portfolio-dots");
 

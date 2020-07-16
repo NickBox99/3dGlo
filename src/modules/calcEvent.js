@@ -40,15 +40,24 @@ const calcEvent = function () {
       statusAnimated = false;
     } else {
       let speed = Math.abs(needTotal - nowTotal);
-      if (speed % 10 === 0) {
+      
+      if (speed % 2000 === 0) {
+        speed = 2000;
+      } else if (speed % 500 === 0) {
+        speed = 500;
+      } else if (speed % 200 === 0) {
+        speed = 200;
+      } else if (speed % 100 === 0) {
+        speed = 100;
+      } else if (speed % 50 === 0) {
+        speed = 50;
+      } else if (speed % 10 === 0) {
         speed = 10;
       } else if (speed % 5 === 0) {
         speed = 5;
-      } else if (speed % 3 === 0) {
-        speed = 3;
       } else if (speed % 2 === 0) {
         speed = 2;
-      } else {
+      }else{
         speed = 1;
       }
 
